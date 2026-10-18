@@ -112,25 +112,7 @@ export function StorySection() { return (
 </section>
 ); }
 
-export function GallerySection() { return (
-<section id="galeria" className="bg-graphite py-24 md:py-32">
-<div className="mx-auto max-w-7xl px-5 md:px-10">
-<h2 className="reveal text-5xl md:text-7xl">Produtos <span className="text-primary">oficiais.</span>
-</h2>
-<div className="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 md:grid md:grid-cols-5 md:overflow-visible">
-<button className="reveal group relative w-[82%] shrink-0 snap-center overflow-hidden bg-background md:w-auto md:col-span-3" aria-label="Ampliar Camisa oficial">
-<img src="/assets/no-pique/camisa.jpg" alt="Camisa oficial" width="814" height="1039" loading="lazy" className="h-[460px] w-full object-cover transition-transform duration-700 group-hover:scale-105 md:h-[600px]"/>
-<span className="absolute bottom-0 left-0 bg-background px-4 py-2 font-display text-2xl italic">Camisa oficial</span>
-</button>
-<button className="reveal group relative w-[82%] shrink-0 snap-center overflow-hidden bg-background md:w-auto md:col-span-2" aria-label="Ampliar Meia oficial">
-<img src="/assets/no-pique/meia.jpg" alt="Meia oficial" width="853" height="1280" loading="lazy" className="h-[460px] w-full object-cover transition-transform duration-700 group-hover:scale-105 md:h-[600px]"/>
-<span className="absolute bottom-0 left-0 bg-background px-4 py-2 font-display text-2xl italic">Meia oficial</span>
-</button>
-</div>
-<p className="mt-4 text-sm text-muted-foreground">Fotos de garrafa, short e óculos em breve.</p>
-</div>
-</section>
-); }
+export { GallerySection } from './ProductCarousel';
 
 export function EventInformation() { return (
 <section id="info" className="bg-background py-24 md:py-32">

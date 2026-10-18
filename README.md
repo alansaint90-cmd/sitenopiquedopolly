@@ -48,4 +48,6 @@ Configure o domínio definitivo, URLs absolutas de Open Graph, sitemap, regulame
 
 ## Referência visual
 
+A seção Produtos oficiais apresenta camisa, meia, garrafa, short e óculos em carrossel responsivo: três cards no desktop, dois no tablet e um com prévia do próximo no celular. A navegação funciona por setas, indicadores, rolagem por toque e teclado (setas, Home e End), com ampliação dos cinco produtos. Garrafa, short e óculos foram criados com ImageGen como imagens ilustrativas, usando a camisa e a campanha como referências. Os prompts estão em `docs/product-image-prompts.json`, e as imagens otimizadas estão em `public/assets/no-pique/`.
+
 Mantidos a ordem das seções, tipografia Barlow Condensed e Manrope, paleta pink/ciano/preto, composições assimétricas e fotografias do material fornecido. Implementados navegação por âncoras, faixa animada contínua, zoom dos produtos, FAQ com teclado, diálogos com foco e Escape, CTA móvel e respeito a movimento reduzido.
