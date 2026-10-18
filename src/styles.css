@@ -36,6 +36,8 @@
 .btn-ghost { border: 2px solid currentColor; }
 .btn-ghost:hover { background: white; color: var(--color-primary); transform: translateY(-3px); }
 .btn-cta:active, .btn-ghost:active { transform: translateY(0); }
+.hero-registration { min-height: 64px; padding: 18px clamp(16px, 4.2vw, 24px); gap: 10px; font-size: clamp(20px, 5.65vw, 22px); }
+.hero-registration svg { flex-shrink: 0; }
 header { background: linear-gradient(#09090d50, transparent); }
 .header-brand { display: inline-flex; align-items: center; flex-shrink: 0; }
 .header-logo { display: block; width: 80px; height: 80px; object-fit: contain; }

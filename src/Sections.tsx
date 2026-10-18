@@ -18,27 +18,25 @@ export function Header() { return (
 ); }
 
 export function Hero() { return (
-<section className="relative flex min-h-[100svh] items-end overflow-hidden bg-background pb-14 pt-28 md:items-center md:pb-0">
+<section className="hero relative flex min-h-[100svh] items-end overflow-hidden bg-background pb-14 pt-28 md:items-center md:pb-0" aria-labelledby="hero-title">
 <img src="/assets/no-pique/hero.jpg" alt="Corredores em movimento com a marca No Pique com Polly" width="1022" height="1280" fetchPriority="high" className="animate-reveal-img absolute inset-0 h-full w-full object-cover object-[70%_center] md:left-[30%] md:w-[70%]"/>
 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/10 md:bg-gradient-to-r md:from-background md:via-background/85 md:to-transparent">
 </div>
 <div className="speed-lines pointer-events-none absolute inset-0 opacity-60">
 </div>
 <div className="relative mx-auto w-full max-w-7xl px-5 md:px-10">
-<p className="animate-rise font-display text-lg text-accent md:text-xl" style={{animationDelay: '.1s'}}>{eventDisplay.fullDate} • {eventConfig.city}/{eventConfig.state}</p>
-<h1 className="animate-rise mt-3 max-w-3xl text-6xl md:text-8xl lg:text-[8.5rem]" style={{animationDelay: '.25s'}}>Salvador vai entrar <span className="text-primary">no pique!</span>
+<h1 id="hero-title" className="animate-rise max-w-3xl text-[clamp(3rem,15.4vw,3.75rem)] md:text-8xl lg:text-[8.5rem]" style={{animationDelay: '.1s'}}>Salvador vai entrar <span className="text-primary">no pique!</span>
 </h1>
-<p className="animate-rise mt-5 font-display text-2xl text-accent md:text-3xl" style={{animationDelay: '.4s'}}>Não é só correr. É viver essa energia.</p>
-<p className="animate-rise mt-4 max-w-lg text-base text-muted-foreground md:text-lg" style={{animationDelay: '.55s'}}>Prepare-se para uma experiência que une esporte, música e a energia da Bahia. Vista sua camisa, escolha seu kit e faça parte da primeira edição do NO PIQUE COM POLLY.</p>
-<div className="animate-rise mt-7 flex flex-wrap gap-x-3 gap-y-2 font-display text-xl sm:gap-x-8 sm:text-2xl md:text-3xl" style={{animationDelay: '.7s'}}>
-<span>{eventDisplay.dottedDate}</span>
-<span className="text-primary">/</span>
+<p className="animate-rise mt-5 max-w-lg font-display text-2xl text-accent md:text-3xl" style={{animationDelay: '.25s'}}>Não é só correr. É viver essa energia.</p>
+<div className="animate-rise mt-5 flex items-center gap-2 whitespace-nowrap font-display text-base min-[375px]:text-lg sm:gap-4 sm:text-2xl" style={{animationDelay: '.4s'}}>
+<time dateTime={eventConfig.date}>{eventDisplay.dottedDate}</time>
+<span className="text-primary" aria-hidden="true">•</span>
 <span>{eventConfig.location}</span>
-<span className="text-primary">/</span>
+<span className="text-primary" aria-hidden="true">•</span>
 <span className="text-accent">{eventConfig.distanceKm} KM</span>
 </div>
-<div className="animate-rise mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6" style={{animationDelay: '.85s'}}>
-<a href="#kits" className="btn-cta">Garantir minha inscrição <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right size-5" aria-hidden="true">
+<div className="animate-rise mt-6 flex flex-col items-center gap-3 sm:flex-row sm:gap-6" style={{animationDelay: '.55s'}}>
+<a href="#kits" className="btn-cta hero-registration w-full justify-center sm:w-auto">Garantir minha inscrição <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right size-5" aria-hidden="true">
 <path d="M5 12h14">
 </path>
 <path d="m12 5 7 7-7 7">
