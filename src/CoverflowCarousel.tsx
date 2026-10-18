@@ -99,7 +99,9 @@ export function GallerySection() {
     const animate = (now: number) => {
       const elapsed = lastFrame ? Math.min(now - lastFrame, 64) : 0;
       lastFrame = now;
-      const focused = stage.contains(document.activeElement);
+      // Touch can leave a photo focused indefinitely. Only keyboard focus should
+      // pause autoplay until focus leaves the carousel.
+      const focused = stage.matches(':focus-visible') || !!stage.querySelector(':focus-visible');
       if (inView && !document.hidden && !reducedMotion.matches && !drag && !focused && now >= resumeAt && !document.querySelector('dialog[open]')) {
         stage.classList.add('is-autoplaying');
         phase -= elapsed / autoDuration;
@@ -123,6 +125,11 @@ export function GallerySection() {
         if (event.type !== 'pointercancel' && Math.abs(current.dx) > 35) go(current.dx < 0 ? 1 : -1);
         else { phase = 0; render(); }
       }
+    };
+    const lostPointerCapture = (event: PointerEvent) => {
+      // Touch starts with implicit capture on the photo. Its bubbling loss event
+      // is expected when we capture the horizontal gesture on the stage.
+      if (event.target === stage) finish(event);
     };
     const pointerMove = (event: PointerEvent) => {
       if (!drag || drag.id !== event.pointerId) return;
@@ -161,7 +168,7 @@ export function GallerySection() {
     intersection.observe(stage); resize.observe(stage);
     stage.addEventListener('pointerdown', pointerDown);
     stage.addEventListener('pointermove', pointerMove);
-    stage.addEventListener('lostpointercapture', finish);
+    stage.addEventListener('lostpointercapture', lostPointerCapture);
     stage.addEventListener('click', click);
     stage.addEventListener('keydown', keyDown);
     stage.addEventListener('dragstart', dragStart);
@@ -177,7 +184,7 @@ export function GallerySection() {
       cancelAnimationFrame(frameId); intersection.disconnect(); resize.disconnect();
       stage.removeEventListener('pointerdown', pointerDown);
       stage.removeEventListener('pointermove', pointerMove);
-      stage.removeEventListener('lostpointercapture', finish);
+      stage.removeEventListener('lostpointercapture', lostPointerCapture);
       stage.removeEventListener('click', click);
       stage.removeEventListener('keydown', keyDown);
       stage.removeEventListener('dragstart', dragStart);
