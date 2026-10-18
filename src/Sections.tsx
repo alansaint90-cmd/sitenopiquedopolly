@@ -112,7 +112,7 @@ export function StorySection() { return (
 </section>
 ); }
 
-export { GallerySection } from './ProductCarousel';
+export { GallerySection } from './CoverflowCarousel';
 
 export function EventInformation() { return (
 <section id="info" className="bg-background py-24 md:py-32">
