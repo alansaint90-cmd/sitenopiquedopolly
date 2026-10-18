@@ -13,7 +13,7 @@
   --font-display: 'Barlow Condensed', Impact, 'Arial Narrow', sans-serif;
   --animate-rise: rise 700ms cubic-bezier(.2,.65,.3,1) both;
   --animate-reveal-img: reveal-image 1100ms ease-out both;
-  --animate-marquee: marquee 60s linear infinite;
+  --animate-marquee: marquee 70s linear infinite;
 }
 
 @layer base {
@@ -47,10 +47,6 @@ header .btn-cta { min-height: 44px; font-size: 16px; padding: 10px 22px; }
 .kit-card { transition: transform 250ms, box-shadow 250ms; }
 .kit-card:hover { transform: translateY(-4px); }
 #experiencia .bg-primary p { color: var(--color-background); opacity: 1; }
-.marquee-shell { position: relative; }
-.marquee-shell:hover .animate-marquee, .marquee-shell:focus-within .animate-marquee, .is-paused .animate-marquee { animation-play-state: paused; }
-.marquee-pause { position: absolute; right: 0; bottom: 0; display: grid; place-items: center; width: 44px; height: 100%; max-height: 72px; background: var(--color-primary); color: var(--color-background); box-shadow: -14px 0 20px var(--color-primary); font-size: 24px; font-weight: 800; }
-.marquee-pause:focus-visible { outline-offset: -4px; outline-color: var(--color-background); }
 .faq-answer { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 250ms, visibility 250ms; }
 .faq-answer[data-open="true"] { grid-template-rows: 1fr; visibility: visible; }
 .faq-answer > div { overflow: hidden; }

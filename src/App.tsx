@@ -58,7 +58,6 @@ type Overlay = { type: 'kit'; kit: Kit } | { type: 'image'; src: string; alt: st
 
 export default function App() {
   const [overlay, setOverlay] = useState<Overlay | null>(null);
-  const [marqueePaused, setMarqueePaused] = useState(false);
   const [showSticky, setShowSticky] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const lastFocused = useRef<HTMLElement | null>(null);
@@ -128,7 +127,7 @@ export default function App() {
     <Header />
     <main id="conteudo" className="overflow-x-hidden">
       <Hero />
-      <div className={`marquee-shell ${marqueePaused ? 'is-paused' : ''}`}><Marquee /><button className="marquee-pause" onClick={() => setMarqueePaused(!marqueePaused)} aria-label={marqueePaused ? 'Retomar faixa animada' : 'Pausar faixa animada'} aria-pressed={marqueePaused}>{marqueePaused ? '▶' : 'Ⅱ'}</button></div>
+      <Marquee />
       <ExperienceSection />
       <StorySection />
       <KitsSection onSelect={selectKit} />

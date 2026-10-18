@@ -48,4 +48,4 @@ Configure o domínio definitivo, URLs absolutas de Open Graph, sitemap, regulame
 
 ## Referência visual
 
-Mantidos a ordem das seções, tipografia Barlow Condensed e Manrope, paleta pink/ciano/preto, composições assimétricas e fotografias do material fornecido. Implementados navegação por âncoras, faixa com pausa, zoom dos produtos, FAQ com teclado, diálogos com foco e Escape, CTA móvel e respeito a movimento reduzido.
+Mantidos a ordem das seções, tipografia Barlow Condensed e Manrope, paleta pink/ciano/preto, composições assimétricas e fotografias do material fornecido. Implementados navegação por âncoras, faixa animada contínua, zoom dos produtos, FAQ com teclado, diálogos com foco e Escape, CTA móvel e respeito a movimento reduzido.
