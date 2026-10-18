@@ -17,6 +17,19 @@ pnpm build
 
 Publique a pasta `dist` em uma hospedagem estática. `pnpm preview` serve a versão de produção localmente.
 
+## EasyPanel / Docker
+
+O `Dockerfile` na raiz compila o site com Node.js 24 e pnpm 11.25.0, e serve os arquivos estáticos com Nginx na porta interna **8080**.
+
+No EasyPanel, mantenha a fonte Git no repositório `https://github.com/alansaint90-cmd/sitenopiquedopolly.git`, branch `master` e caminho de build `/`. Em Build, use Dockerfile com caminho `Dockerfile`. Na configuração do domínio, defina protocolo HTTP e porta de destino `8080`. Depois salve e implante.
+
+Para executar com Docker localmente:
+
+```sh
+docker build -t no-pique-com-polly .
+docker run --rm -p 8080:8080 no-pique-com-polly
+```
+
 ## Dados e inscrições
 
 Kits atualizados conforme áudio de 17/10/2026 e valores confirmados no chat: Bronze (R$ 150, camisa e número de peito), Prata (R$ 180, camisa, número de peito, garrafa e meia) e Ouro (R$ 230, camisa, número de peito, garrafa, short, meia e óculos).

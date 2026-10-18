@@ -69,9 +69,8 @@ export function ExperienceSection() { return (
 <p className="mt-4 font-display text-2xl text-primary md:text-3xl">Uma experiência que tem a energia da Bahia.</p>
 </div>
 <div className="mt-16 grid gap-6 md:grid-cols-12">
-<figure className="reveal flex flex-col justify-center overflow-hidden bg-graphite md:col-span-7 md:row-span-2">
-<img src="/assets/no-pique/experiencia-polly.png" alt="Arte No Pique com Polly com camisa, óculos, medalha e participante usando a camisa oficial" width="1672" height="941" loading="lazy" className="h-auto w-full object-contain"/>
-<figcaption className="self-start bg-primary px-5 py-3 font-display text-3xl italic">01 — Movimento</figcaption>
+<figure className="reveal relative min-h-0 overflow-hidden md:col-span-7 md:row-span-2">
+<img src="/assets/no-pique/experiencia-polly.png" alt="Arte No Pique com Polly com camisa, óculos, medalha e participante usando a camisa oficial" width="1672" height="941" loading="lazy" className="h-full w-full object-cover object-center md:absolute md:inset-0"/>
 </figure>
 <div className="reveal flex flex-col justify-end p-8 md:p-10 md:col-span-5 bg-graphite">
 <span className="font-display text-6xl italic opacity-40">01</span>
