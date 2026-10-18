@@ -69,15 +69,15 @@ export function ExperienceSection() { return (
 <p className="mt-4 font-display text-2xl text-primary md:text-3xl">Uma experiência que tem a energia da Bahia.</p>
 </div>
 <div className="mt-16 grid gap-6 md:grid-cols-12">
-<figure className="reveal relative min-h-0 overflow-hidden md:col-span-7 md:row-span-2">
-<img src="/assets/no-pique/experiencia-polly.png" alt="Arte No Pique com Polly com camisa, óculos, medalha e participante usando a camisa oficial" width="1672" height="941" loading="lazy" className="h-full w-full object-cover object-center md:absolute md:inset-0"/>
+<figure className="reveal relative min-h-0 overflow-hidden md:col-span-7 md:row-span-2 lg:col-span-8 lg:aspect-[1672/941] lg:self-start">
+<img src="/assets/no-pique/experiencia-polly.png" alt="Arte No Pique com Polly com camisa, óculos, medalha e participante usando a camisa oficial" width="1672" height="941" loading="lazy" className="h-full w-full object-cover object-center md:absolute md:inset-0 lg:object-contain"/>
 </figure>
-<div className="reveal flex flex-col justify-end p-8 md:p-10 md:col-span-5 bg-graphite">
+<div className="experience-pillar reveal flex flex-col justify-end p-8 md:p-10 md:col-span-5 lg:col-span-4 bg-graphite">
 <span className="font-display text-6xl italic opacity-40">01</span>
 <h3 className="mt-2 text-4xl md:text-5xl">Movimento</h3>
 <p className="mt-3 max-w-md text-base opacity-85">5 km pela Orla de Salvador para tirar a cidade do lugar e celebrar hábitos saudáveis — no seu ritmo.</p>
 </div>
-<div className="reveal flex flex-col justify-end p-8 md:p-10 md:col-span-5 bg-primary">
+<div className="experience-pillar reveal flex flex-col justify-end p-8 md:p-10 md:col-span-5 lg:col-span-4 bg-primary">
 <span className="font-display text-6xl italic opacity-40">02</span>
 <h3 className="mt-2 text-4xl md:text-5xl">Cultura</h3>
 <p className="mt-3 max-w-md text-base opacity-85">Esporte e entretenimento no mesmo ambiente, valorizando a criatividade e a energia baiana.</p>
