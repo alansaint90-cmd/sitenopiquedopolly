@@ -9,7 +9,8 @@ const products = [
 ];
 
 type Controller = { go: (delta: number) => void; select: (index: number) => void };
-type Drag = { id: number; x: number; y: number; dx: number; horizontal: boolean };
+type Drag = { id: number; x: number; y: number; dx: number; start: number; horizontal: boolean };
+type Settle = { from: number; to: number; started: number };
 
 function NavigationArrow({ previous = false }: { previous?: boolean }) {
   return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" style={previous ? { transform: 'rotate(180deg)' } : undefined}><path d="M5 12h14m-7-7 7 7-7 7" /></svg>;
@@ -31,7 +32,8 @@ export function GallerySection() {
     const autoDuration = 6500;
     const resumeDelay = 3500;
     let active = 0;
-    let phase = 0;
+    let position = 0;
+    let settling: Settle | null = null;
     let step = 220;
     let stageWidth = stage.clientWidth;
     let cardWidth = cards[0].offsetWidth;
@@ -43,18 +45,19 @@ export function GallerySection() {
     let suppressClickUntil = 0;
 
     const modulo = (value: number) => ((value % total) + total) % total;
+    const circularDistance = (value: number) => modulo(value + total / 2) - total / 2;
     const interpolate = (values: number[], distance: number) => {
       const position = Math.min(distance, 3);
       const lower = Math.floor(position);
       const upper = Math.min(lower + 1, 3);
       return values[lower] + (values[upper] - values[lower]) * (position - lower);
     };
-    const render = (travel = phase) => {
+    const render = () => {
+      const nextActive = modulo(Math.round(position));
+      if (nextActive !== active) { active = nextActive; setActiveIndex(active); }
       cards.forEach((card, index) => {
-        let offset = index - active;
-        if (offset > total / 2) offset -= total;
-        if (offset < -total / 2) offset += total;
-        const distance = offset + travel;
+        // Wrap only at the invisible far edge, including during manual settling.
+        const distance = circularDistance(index - position);
         const absolute = Math.abs(distance);
         const side = Math.sign(distance);
         const scale = interpolate([1, 0.82, 0.65, 0.5], absolute);
@@ -66,7 +69,7 @@ export function GallerySection() {
         const visible = absolute < total / 2 && withinStage;
         // Fade the outer card before its circular position wraps to the other side.
         const edgeFade = Math.min(1, Math.max(0, (total / 2 - absolute) * 2));
-        const opacity = visible ? interpolate([1, 0.9, 0.65, 0.35], absolute) * edgeFade : 0;
+        const opacity = interpolate([1, 0.9, 0.65, 0.35], absolute) * edgeFade;
         card.style.transform = `translateX(calc(-50% + ${distance * step}px)) translateZ(${depth}px) rotateY(${-side * rotation}deg) scale(${scale})`;
         card.style.opacity = String(opacity);
         card.style.zIndex = String(10 - Math.round(absolute));
@@ -82,13 +85,18 @@ export function GallerySection() {
       resumeAt = performance.now() + resumeDelay;
       stage.classList.remove('is-autoplaying');
     };
-    const select = (index: number) => {
-      interact(); phase = 0; active = modulo(index);
-      setActiveIndex(active);
-      setAnnouncement(`${products[active].name}, ${active + 1} de ${total}`);
-      render();
+    const settleTo = (target: number, announce = true) => {
+      interact();
+      if (announce) {
+        const index = modulo(Math.round(target));
+        setAnnouncement(`${products[index].name}, ${index + 1} de ${total}`);
+      }
+      if (reducedMotion.matches || Math.abs(target - position) < 0.000001) {
+        settling = null; position = target; render();
+      } else settling = { from: position, to: target, started: performance.now() };
     };
-    const go = (delta: number) => select(active + delta);
+    const select = (index: number) => settleTo(position + circularDistance(index - position));
+    const go = (delta: number) => settleTo((settling?.to ?? Math.round(position)) + delta);
     controllerRef.current = { go, select };
     const measure = () => {
       stageWidth = stage.clientWidth;
@@ -102,28 +110,45 @@ export function GallerySection() {
       // Touch can leave a photo focused indefinitely. Only keyboard focus should
       // pause autoplay until focus leaves the carousel.
       const focused = stage.matches(':focus-visible') || !!stage.querySelector(':focus-visible');
-      if (inView && !document.hidden && !reducedMotion.matches && !drag && !focused && now >= resumeAt && !document.querySelector('dialog[open]')) {
+      if (settling && !drag) {
+        const progress = Math.min(1, Math.max(0, (now - settling.started) / 320));
+        position = settling.from + (settling.to - settling.from) * (1 - (1 - progress) ** 3);
+        if (progress === 1) { position = settling.to; settling = null; }
+        render();
+      } else if (inView && !document.hidden && !reducedMotion.matches && !drag && !focused && now >= resumeAt && !document.querySelector('dialog[open]')) {
         stage.classList.add('is-autoplaying');
-        phase -= elapsed / autoDuration;
-        if (phase <= -0.5) { active = modulo(active + 1); phase += 1; setActiveIndex(active); }
+        position += elapsed / autoDuration;
         render();
       } else stage.classList.remove('is-autoplaying');
       frameId = requestAnimationFrame(animate);
     };
     const pointerDown = (event: PointerEvent) => {
-      if (event.button !== 0 || drag) return;
+      if (event.button !== 0 || event.isPrimary === false || drag) return;
       interact();
-      drag = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, horizontal: false };
+      settling = null;
+      drag = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, start: position, horizontal: false };
     };
     const finish = (event: PointerEvent) => {
       if (!drag || drag.id !== event.pointerId) return;
-      const current = drag; drag = null;
+      const current = drag;
+      const cancelled = event.type !== 'pointerup';
+      if (current.horizontal && !cancelled) {
+        current.dx = event.clientX - current.x;
+        position = current.start - current.dx / step;
+      }
+      drag = null;
       interact(); stage.classList.remove('is-dragging');
       if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
       if (current.horizontal) {
         suppressClickUntil = performance.now() + 400;
-        if (event.type !== 'pointercancel' && Math.abs(current.dx) > 35) go(current.dx < 0 ? 1 : -1);
-        else { phase = 0; render(); }
+        const anchor = Math.round(current.start);
+        let target = cancelled ? anchor : Math.round(position);
+        // A short intentional swipe from a centered card still advances once.
+        // During autoplay, settle to the card actually under the finger instead.
+        if (!cancelled && target === anchor && Math.abs(current.start - anchor) < 0.15 && Math.abs(current.dx) > 35) {
+          target += current.dx < 0 ? 1 : -1;
+        }
+        settleTo(target, !cancelled);
       }
     };
     const lostPointerCapture = (event: PointerEvent) => {
@@ -136,11 +161,15 @@ export function GallerySection() {
       drag.dx = event.clientX - drag.x;
       const dy = event.clientY - drag.y;
       if (!drag.horizontal && Math.abs(dy) > Math.abs(drag.dx) && Math.abs(dy) > 12) { finish(event); return; }
-      if (Math.abs(drag.dx) > 8) {
-        if (!drag.horizontal) stage.setPointerCapture(event.pointerId);
+      if (!drag.horizontal && Math.abs(drag.dx) > 8 && Math.abs(drag.dx) >= Math.abs(dy)) {
         drag.horizontal = true;
+        stage.setPointerCapture(event.pointerId);
         stage.classList.add('is-dragging');
-        render(Math.max(-0.9, Math.min(0.9, phase + drag.dx / step)));
+      }
+      if (drag.horizontal) {
+        if (event.cancelable) event.preventDefault();
+        position = drag.start - drag.dx / step;
+        render();
       }
     };
     const click = (event: MouseEvent) => {
@@ -162,7 +191,10 @@ export function GallerySection() {
       else go(event.key === 'ArrowRight' ? 1 : -1);
     };
     const dragStart = (event: Event) => event.preventDefault();
-    const motionChange = () => { interact(); phase = 0; render(); };
+    const cancelGesture = () => {
+      if (drag) finish({ type: 'pointercancel', pointerId: drag.id } as PointerEvent);
+    };
+    const motionChange = () => { cancelGesture(); settleTo(Math.round(position), false); };
     const intersection = new IntersectionObserver(entries => { inView = entries[0].isIntersecting; }, { threshold: 0.15 });
     const resize = new ResizeObserver(measure);
     intersection.observe(stage); resize.observe(stage);
@@ -176,6 +208,7 @@ export function GallerySection() {
     stage.addEventListener('focusout', interact);
     window.addEventListener('pointerup', finish);
     window.addEventListener('pointercancel', finish);
+    window.addEventListener('blur', cancelGesture);
     mobile.addEventListener('change', measure);
     reducedMotion.addEventListener('change', motionChange);
     measure(); frameId = requestAnimationFrame(animate);
@@ -192,6 +225,7 @@ export function GallerySection() {
       stage.removeEventListener('focusout', interact);
       window.removeEventListener('pointerup', finish);
       window.removeEventListener('pointercancel', finish);
+      window.removeEventListener('blur', cancelGesture);
       mobile.removeEventListener('change', measure);
       reducedMotion.removeEventListener('change', motionChange);
       controllerRef.current = null;
