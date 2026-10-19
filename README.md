@@ -32,11 +32,11 @@ docker run --rm -p 8080:8080 no-pique-com-polly
 
 ## Dados e inscrições
 
-Kits atualizados conforme áudio de 17/10/2026 e valores confirmados no chat: Bronze (R$ 150, camisa e número de peito), Prata (R$ 180, camisa, número de peito, garrafa e meia) e Ouro (R$ 230, camisa, número de peito, garrafa, short, meia e óculos).
+Dados atualizados em 19/10/2026 a partir da página oficial da Ticketmaker, conforme solicitação do usuário. Os kits agora seguem a nomenclatura e os itens da plataforma: Kit 1 (R$ 120 + R$ 12 de taxa), Kit 2 (R$ 150 + R$ 15) e Kit 3 (R$ 199 + R$ 19,90). A evidência consultada está em `docs/ticketmaker-2026-10-19.md`.
 
-Edite `src/event-config.ts` para atualizar preços, itens, informações e links. Para abrir vendas, configure `checkoutUrl` para cada kit e mude `registrationStatus` para `SALES_OPEN`. No estado atual, `PRE_LAUNCH`, selecionar um kit mostra uma mensagem verdadeira de pré-lançamento e não realiza cobrança.
+Edite `src/event-config.ts` para atualizar preços, itens, informações e links. O estado atual é `SALES_OPEN`. Todos os CTAs de inscrição são links reais para a seleção de kit e tamanho na Ticketmaker; a escolha do tamanho, o carrinho, a identificação e o pagamento acontecem na plataforma oficial. Não há parâmetros de pré-seleção de kit inventados.
 
-Os estados `SALES_PAUSED` e `SALES_CLOSED` também possuem mensagens específicas. Os CTAs do restante da página levam à escolha dos kits.
+`RegistrationLink` centraliza o destino dos CTAs e a mensuração. Se o status deixar de ser `SALES_OPEN`, os links retornam à seção de kits. Os links de navegação “Kits” permanecem como âncoras internas.
 
 ## Mensuração
 
@@ -44,7 +44,7 @@ Os estados `SALES_PAUSED` e `SALES_CLOSED` também possuem mensagens específica
 
 ## Antes de publicar
 
-Configure o domínio definitivo, URLs absolutas de Open Graph, sitemap, regulamento, política de privacidade, contatos e plataforma de inscrição. Os campos pendentes aparecem como “a confirmar” ou “em breve”. Horário de largada, percurso exato e atrações não foram inventados.
+Configure o domínio definitivo, URLs absolutas de Open Graph, sitemap, regulamento e política de privacidade do site. Os links de privacidade, reembolso e suporte da compra apontam para a Ticketmaker e são identificados como tal. O horário de 6h às 12h é o horário do evento, não uma confirmação de largada. Ponto exato de largada, local/horário da retirada e regulamento continuam pendentes. A data prevista de retirada (08/01/2027) veio do material anterior e não está confirmada na página consultada.
 
 ## Referência visual
 

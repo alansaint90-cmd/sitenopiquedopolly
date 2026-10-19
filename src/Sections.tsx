@@ -1,4 +1,5 @@
 import { eventConfig, eventDisplay } from './event-config';
+import { RegistrationLink } from './RegistrationLink';
 
 export function Header() { return (
 <header className="fixed inset-x-0 top-0 z-40 transition-all duration-300 py-3">
@@ -12,7 +13,7 @@ export function Header() { return (
 <a href="#info" className="transition-colors hover:text-accent">Informações</a>
 <a href="#faq" className="transition-colors hover:text-accent">FAQ</a>
 </nav>
-<a href="#kits" className="btn-cta px-4 py-2 text-base">Inscreva-se</a>
+<RegistrationLink className="btn-cta px-4 py-2 text-base">Inscreva-se</RegistrationLink>
 </div>
 </header>
 ); }
@@ -31,14 +32,15 @@ export function Hero() { return (
 <p className="animate-rise mt-5 font-display text-2xl text-accent md:text-3xl" style={{animationDelay: '.4s'}}>Não é só correr. É viver essa energia.</p>
 <p className="animate-rise mt-4 max-w-lg text-base text-muted-foreground md:text-lg" style={{animationDelay: '.55s'}}>Prepare-se para uma experiência que une esporte, música e a energia da Bahia. Vista sua camisa, escolha seu kit e faça parte da primeira edição do NO PIQUE COM POLLY.</p>
 <div className="animate-rise mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-6" style={{animationDelay: '.85s'}}>
-<a href="#kits" className="btn-cta">Garantir minha inscrição <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right size-5" aria-hidden="true">
+<RegistrationLink className="btn-cta">Garantir minha inscrição <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right size-5" aria-hidden="true">
 <path d="M5 12h14">
 </path>
 <path d="m12 5 7 7-7 7">
 </path>
 </svg>
-</a>
+</RegistrationLink>
 <span className="text-sm text-muted-foreground">Kits a partir de <strong className="text-foreground">R$ {eventConfig.kits[0].price}</strong>
+<span> + taxa</span>
 </span>
 </div>
 </div>
@@ -94,7 +96,7 @@ export function StorySection() { return (
 <h2 className="text-6xl md:text-8xl">A corrida é <span className="text-accent">só o começo.</span>
 </h2>
 <p className="mt-8 max-w-md text-lg text-muted-foreground">Imagine a energia de Salvador, a vibração do esporte e a cultura baiana se encontrando em uma experiência que vai além da linha de chegada.</p>
-<p className="mt-4 max-w-md text-sm text-muted-foreground">Um evento que nasce da conexão do universo artístico de Oh Polêmico com o público. Programação artística a confirmar.</p>
+<p className="mt-4 max-w-md text-sm text-muted-foreground">Um evento que nasce da conexão do universo artístico de Oh Polêmico com o público. {eventConfig.artisticProgram}!</p>
 </div>
 <div className="reveal relative">
 <div className="absolute -inset-3 -rotate-3 bg-primary">
@@ -160,7 +162,7 @@ export function EventInformation() { return (
 <path d="m7.5 4.27 9 5.15">
 </path>
 </svg>
-<dt className="mt-4 font-display text-lg italic text-muted-foreground">Retirada dos kits</dt>
+<dt className="mt-4 font-display text-lg italic text-muted-foreground">Retirada prevista dos kits</dt>
 <dd className="mt-1 font-display text-3xl italic">{eventDisplay.pickupDate} • {eventConfig.kitPickup.location || 'local e horário a confirmar'}</dd>
 </div>
 <div className="reveal bg-background p-8">
@@ -170,8 +172,8 @@ export function EventInformation() { return (
 <path d="M12 6v6l4 2">
 </path>
 </svg>
-<dt className="mt-4 font-display text-lg italic text-muted-foreground">Largada</dt>
-<dd className="mt-1 font-display text-3xl italic">{eventConfig.startTime || 'A confirmar'}</dd>
+<dt className="mt-4 font-display text-lg italic text-muted-foreground">Horário do evento</dt>
+<dd className="mt-1 font-display text-3xl italic">{eventDisplay.schedule}</dd>
 </div>
 <div className="reveal bg-background p-8">
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-file-text size-7 text-primary" aria-hidden="true">
@@ -188,6 +190,21 @@ export function EventInformation() { return (
 </svg>
 <dt className="mt-4 font-display text-lg italic text-muted-foreground">Regulamento</dt>
 <dd className="mt-1 font-display text-3xl italic">{eventConfig.regulationUrl ? <a className="text-accent underline" href={eventConfig.regulationUrl}>Ler regulamento</a> : 'A confirmar'}</dd>
+</div>
+<div className="reveal bg-background p-8">
+<p className="font-display text-3xl text-primary" aria-hidden="true">18+</p>
+<dt className="mt-4 font-display text-lg italic text-muted-foreground">Classificação etária</dt>
+<dd className="mt-1 font-display text-3xl italic">{eventConfig.minimumAge} anos</dd>
+</div>
+<div className="reveal bg-background p-8">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" aria-hidden="true"><path d="M9 18V5l12-2v13M9 9l12-2"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+<dt className="mt-4 font-display text-lg italic text-muted-foreground">After</dt>
+<dd className="mt-1 font-display text-3xl italic">{eventConfig.artisticProgram}</dd>
+</div>
+<div className="reveal bg-background p-8">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary" aria-hidden="true"><path d="M4 14v-3a8 8 0 0 1 16 0v3M4 12H2v7h4v-7Zm16 0h2v7h-4v-7ZM20 19a3 3 0 0 1-3 3h-3"/></svg>
+<dt className="mt-4 font-display text-lg italic text-muted-foreground">Suporte da inscrição</dt>
+<dd className="mt-1 font-display text-3xl italic"><a className="text-accent underline" href={eventConfig.supportUrl}>Central Ticketmaker</a></dd>
 </div>
 </dl>
 </div>
@@ -207,13 +224,14 @@ export function ConversionCTA() { return (
 <div className="reveal mt-10 flex flex-wrap items-center gap-6 font-display text-3xl italic">
 {eventConfig.kits.map((kit, index) => <span key={kit.id}>{kit.name} <span className={index === eventConfig.kits.length - 1 ? 'text-primary' : 'text-accent'}>R$ {kit.price}</span></span>)}
 </div>
-<a href="#kits" className="reveal btn-cta mt-8">Escolher meu kit <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right size-5" aria-hidden="true">
+<p className="reveal mt-4 text-sm text-muted-foreground">Valores do primeiro lote, acrescidos da taxa de serviço.</p>
+<RegistrationLink className="reveal btn-cta mt-8">Escolher meu kit <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right size-5" aria-hidden="true">
 <path d="M5 12h14">
 </path>
 <path d="m12 5 7 7-7 7">
 </path>
 </svg>
-</a>
+</RegistrationLink>
 </div>
 </section>
 ); }
@@ -235,7 +253,11 @@ export function Footer() { return (
 <a href="#info" className="hover:text-foreground">Informações</a>
 <a href="#faq" className="hover:text-foreground">Perguntas frequentes</a>
 <span>Regulamento — em breve</span>
-<span>Política de Privacidade — em breve</span>
+<a href={eventConfig.checkoutPrivacyUrl} className="hover:text-foreground">Privacidade da compra — Ticketmaker</a>
+<a href={eventConfig.refundPolicyUrl} className="hover:text-foreground">Política de reembolso — Ticketmaker</a>
+<a href={eventConfig.supportUrl} className="hover:text-foreground">Suporte da inscrição</a>
+<a href={`mailto:${eventConfig.supportEmail}`} className="break-all hover:text-foreground">{eventConfig.supportEmail}</a>
+<a href={eventConfig.instagramUrl} className="hover:text-foreground">Instagram @nopiquecompolly</a>
 </nav>
 <div>
 <p className="font-display text-lg italic text-muted-foreground">Patrocinadores e apoiadores</p>

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "test": "node tests/carousel-gestures.test.cjs",
+    "test": "node tests/carousel-gestures.test.cjs && node tests/checkout-links.test.cjs",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1"
   },
