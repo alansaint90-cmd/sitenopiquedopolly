@@ -15,7 +15,7 @@ function mountCarousel({ keyboardFocus = false, mobile = true, reducedMotion = f
   let selected = 0;
   let captured = false;
   const photo = { matches: () => false };
-  const cards = Array.from({ length: 5 }, () => ({
+  const cards = Array.from({ length: 6 }, () => ({
     offsetWidth: 270, style: {}, classList: { toggle() {} },
     setAttribute() {}, querySelector: () => ({}),
   }));
@@ -204,8 +204,8 @@ test('circular swipes settle smoothly from first to last and back', () => {
   carousel.move(190);
   carousel.release(190);
   carousel.settle();
-  assert.equal(carousel.selected(), 4);
-  assert.match(carousel.transform(4), /\+ 0px/);
+  assert.equal(carousel.selected(), 5);
+  assert.match(carousel.transform(5), /\+ 0px/);
   carousel.down(200);
   carousel.move(100);
   carousel.release(100);
@@ -258,11 +258,11 @@ test('long drags, direction changes and blur do not leave a stuck gesture', () =
 test('keyboard navigation and reduced motion still work on desktop', () => {
   const carousel = mountCarousel({ mobile: false, reducedMotion: true });
   carousel.key('End');
-  assert.equal(carousel.selected(), 4);
+  assert.equal(carousel.selected(), 5);
   carousel.key('ArrowRight');
   assert.equal(carousel.selected(), 0);
   carousel.key('ArrowLeft');
-  assert.equal(carousel.selected(), 4);
+  assert.equal(carousel.selected(), 5);
   carousel.key('Home');
   assert.equal(carousel.selected(), 0);
   carousel.cleanup();

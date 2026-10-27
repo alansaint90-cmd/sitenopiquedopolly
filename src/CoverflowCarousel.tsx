@@ -1,10 +1,13 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 
-const products = [
+type Product = { id: string; name: string; src: string; width: number; height: number; cutout?: boolean };
+
+const products: Product[] = [
   { id: 'camisa', name: 'Camisa oficial', src: '/assets/no-pique/camisa.jpg', width: 814, height: 1039 },
   { id: 'meia', name: 'Meia oficial', src: '/assets/no-pique/meia.jpg', width: 853, height: 1280 },
   { id: 'garrafa', name: 'Garrafa', src: '/assets/no-pique/garrafa.webp', width: 1122, height: 1402 },
-  { id: 'short', name: 'Short', src: '/assets/no-pique/short.webp', width: 1122, height: 1402 },
+  { id: 'short', name: 'Short masculino e feminino', src: '/assets/no-pique/shorts-recorte.png', width: 1774, height: 887, cutout: true },
+  { id: 'mochila', name: 'Mochila personalizada', src: '/assets/no-pique/mochila-recorte.png', width: 1254, height: 1254, cutout: true },
   { id: 'oculos', name: 'Óculos', src: '/assets/no-pique/oculos.webp', width: 1122, height: 1402 },
 ];
 
@@ -245,7 +248,7 @@ export function GallerySection() {
       </div>
       <div ref={stageRef} id="product-track" className="cf-carousel mt-8" role="region" tabIndex={0} aria-roledescription="carrossel" aria-label="Produtos — arraste para os lados ou use as setas do teclado">
         {products.map((product, index) => <article className="cf-card" role="group" aria-roledescription="slide" aria-label={`${index + 1} de ${products.length}: ${product.name}`} key={product.id}>
-          <button type="button" className="cf-photo" aria-label={`${activeIndex === index ? 'Ampliar' : 'Selecionar'} ${product.name}`}>
+          <button type="button" className={`cf-photo${product.cutout ? ' cf-photo--cutout' : ''}`} aria-label={`${activeIndex === index ? 'Ampliar' : 'Selecionar'} ${product.name}`}>
             <img src={product.src} alt={product.name} width={product.width} height={product.height} loading="lazy" decoding="async" draggable={false} />
             <span className="product-zoom" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg></span>
           </button>
@@ -253,7 +256,7 @@ export function GallerySection() {
         </article>)}
       </div>
       <div className="gallery-footer">
-        <p className="text-sm text-muted-foreground">Garrafa, short e óculos: imagens ilustrativas.</p>
+        <p className="text-sm text-muted-foreground">Imagens ilustrativas. Shorts e mochila extraídos da arte do kit.</p>
         <div className="gallery-pagination">
           <div className="gallery-dots" aria-label="Selecionar produto">
             {products.map((product, index) => <button type="button" className="gallery-dot" key={product.id} aria-label={`Mostrar ${product.name}`} aria-current={activeIndex === index ? 'true' : undefined} aria-controls="product-track" onClick={() => controllerRef.current?.select(index)}><span /></button>)}
